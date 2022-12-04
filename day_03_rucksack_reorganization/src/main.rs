@@ -50,14 +50,15 @@ fn get_badges_priorities_sum(input_str: &str) -> u64 {
 
     for rusack_chunk in input_str.lines().collect::<Vec<&str>>().chunks(3) {
         // VERY messy, but better than instantiating every hash map individually
-        let intersection_set: HashSet<char> = rusack_chunk.iter()
-            .fold(HashSet::new(), |set, x| {
+        let intersection_set: HashSet<char> = rusack_chunk.iter().fold(
+            HashSet::new(), |set, x| {
                 if set.is_empty() {
                     create_hash_set_of_chars(x)
                 } else {
                     get_intersection(&set, &create_hash_set_of_chars(x))
                 }
-            });
+            }
+        );
 
         let shared_item: char = intersection_set.iter().map(|x| *x).next().expect("Error!");
         badges_priorities_sum += get_priority_value(shared_item);
