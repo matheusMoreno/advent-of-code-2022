@@ -40,9 +40,9 @@ fn read_input_file(file_path: &str) -> String {
 
 
 fn build_area_matrix(input: &str) -> Vec<Vec<char>> {
-    input.lines().map(
-        |line| line.chars().collect::<Vec<char>>()
-    ).collect::<Vec<Vec<char>>>()
+    input.lines()
+        .map(|line| line.chars().collect::<Vec<char>>())
+        .collect::<Vec<Vec<char>>>()
 }
 
 
@@ -83,14 +83,11 @@ fn build_unidirected_graph(matrix: &Vec<Vec<char>>) -> DiGraph<usize, ()> {
                 (i as i64, j as i64 + 1),
                 (i as i64, j as i64 - 1),
             ].iter().filter(
-                |(x, y)|
-                *x >= 0 && *x < rows as i64 && *y >= 0 && *y < columns as i64
+                |(x, y)| *x >= 0 && *x < rows as i64 && *y >= 0 && *y < columns as i64
             ).map(
-                |(x, y)|
-                (*x as usize, *y as usize)
+                |(x, y)| (*x as usize, *y as usize)
             ).filter(
-                |(x, y)|
-                matrix[*x][*y] as u8 <= matrix[i][j] as u8 + 1
+                |(x, y)| matrix[*x][*y] as u8 <= matrix[i][j] as u8 + 1
             ).collect::<Vec<(usize, usize)>>();
 
             for (x, y) in neighbors {
@@ -124,7 +121,7 @@ fn get_possible_starting_points(matrix: &Vec<Vec<char>>) -> Vec<usize> {
 fn compute_minimum_distance_multiple(
     graph: &DiGraph<usize, ()>, starts: &Vec<usize>, end: usize
 ) -> i32 {
-    starts.iter().map(
-        |start| compute_minimum_distance(&graph, *start, end)
-    ).min().unwrap()
+    starts.iter()
+        .map(|start| compute_minimum_distance(&graph, *start, end))
+        .min().unwrap()
 }
