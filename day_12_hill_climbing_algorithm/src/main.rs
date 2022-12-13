@@ -75,7 +75,6 @@ fn build_unidirected_graph(matrix: &Vec<Vec<char>>) -> DiGraph<usize, ()> {
         |r| r.iter().map(|c| graph.add_node(*c)).collect::<Vec<NodeIndex>>()
     ).collect::<Vec<Vec<NodeIndex>>>();
 
-
     for i in 0..rows {
         for j in 0..columns {
             let neighbors: Vec<(usize, usize)> = vec![
@@ -84,12 +83,14 @@ fn build_unidirected_graph(matrix: &Vec<Vec<char>>) -> DiGraph<usize, ()> {
                 (i as i64, j as i64 + 1),
                 (i as i64, j as i64 - 1),
             ].iter().filter(
-                |(x, y)| *x >= 0 && *x < rows as i64
-                    && *y >= 0 && *y < columns as i64
+                |(x, y)|
+                *x >= 0 && *x < rows as i64 && *y >= 0 && *y < columns as i64
             ).map(
-                |(x, y)| (*x as usize, *y as usize)
+                |(x, y)|
+                (*x as usize, *y as usize)
             ).filter(
-                |(x, y)| matrix[*x][*y] as u8 <= matrix[i][j] as u8 + 1
+                |(x, y)|
+                matrix[*x][*y] as u8 <= matrix[i][j] as u8 + 1
             ).collect::<Vec<(usize, usize)>>();
 
             for (x, y) in neighbors {
